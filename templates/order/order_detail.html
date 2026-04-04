@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order for {{order.user.name}} - {{order.status}}</title>
+</head>
+<body>
+    <center><h1>Order Details</h1></center>
+    <p>User - {{order.user.name}}</p>
+    <p>status - {{order.status}}</p>
+    <p>Total Amount - {{order.total_amount}}</p>
+    <p>Shipping Address - {{order.shipping}}</p>
+    <center>Order Items</center>
+    <ol>
+
+        {% for item in order.items.all %}
+        <li>
+
+            <p>Product Name - {{item.product_name}}</p>
+            <p>Quantity - {{item.quantity}}</p>
+            <p>Unit Price - {{item.unit_price}}</p>
+        </li>
+            <br>
+        {% endfor %}
+    </ol>
+</body>
+</html>

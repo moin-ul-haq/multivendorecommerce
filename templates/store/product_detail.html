@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{product.name}}</title>
+</head>
+<body>
+    <center><h1>{{product.name}}</h1></center>
+    <p>Price -- {{product.price}}</p>
+    <p>Stock -- {{product.stock}}</p>
+    <p>Catagory -- {{product.catagory.name}}</p>
+    <p>Store -- <a href="{% url "store_detail" product.store.slug %}">{{product.store.name}}</a></p>
+    <br><br>
+    <p><a href="{% url "add_to_cart" product.slug %}">Add To Cart</a></p>
+</body>
+</html>

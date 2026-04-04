@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders</title>
+</head>
+<body>
+    <center><h1>Orders</h1></center>
+    <ol>
+
+        {% for order in orders %}
+        <li><a href="{% url "order_detail" order.pk %}">order of price {{order.total_amount}} - status {{order.status}}</a></li>
+        {% endfor %}
+    </ol>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catagories</title>
+</head>
+<body>
+    <center><h1>Catagories</h1></center>
+    {% for catagory in catagories %}
+    <a href="{% url "catagory_detail" catagory.slug %}">{{catagory.name}}</a>
+    {% endfor %}
+</body>
+</html>

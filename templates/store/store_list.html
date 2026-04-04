@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stores</title>
+</head>
+<body>
+    
+    <center><h1>Stores</h1></center>
+    <ul>
+        {% for store in stores %}
+            <li><a href="{% url 'store_detail' store.slug %}">{{ store.name }}</a></li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>

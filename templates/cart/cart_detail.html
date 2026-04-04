@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+</head>
+<body>
+    <center><h1>Cart</h1></center>
+    <h1>Products list</h1>
+    <ol>
+        {% for cartitem in cart.cartitem.all %}
+       <li>{{cartitem.product.name}}</li>
+       <ul>
+           <li>quantity =  <a href="{% url "decrease_quantity" cartitem.product.slug %}">-</a> {{cartitem.quantity}}  <a href="{% url "increase_quantity" cartitem.product.slug %}">+</a></li>
+           <li>Subtotal -- {{cartitem.get_sub_total |floatformat:2}}</li>
+        </ul>
+        <a href="{% url "remove_from_cart" cartitem.product.slug %}">Remove item</a>
+    <br><br>
+        {% endfor %}
+    </ol>
+<br><br>
+    <p>Total Items -- {{cart.get_items_count}}</p>
+    <p>Final Amount  -- {{cart.get_total |floatformat:2}}</p>
+    <center><a href="{% url "checkout" %}">Check Out</a></center>
+</body>
+</html>
