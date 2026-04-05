@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Details</title>
+</head>
+<body>
+    <center>Payment Detail</center>
+    <p>Payment Id: {{payment.id}}</p>
+    <p>Order Id: {{payment.order.id}}</p>
+    <p>Amount: {{payment.total_amount}}</p>
+    <p>Status: {{payment.status}}</p>
+    <a href="{% url "create-checkout-session" payment.id %}">Pay Now</a>
+</body>
+</html>

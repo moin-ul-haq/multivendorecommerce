@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payments</title>
+</head>
+<body>
+    <center><h1>Payments list</h1></center>
+    {% for payment in payments %}
+    <a href="{% url "payment_detail" payment.id %}">payment of {{payment.total_amount}} for Order id {{payment.order.id}} - {{payment.status}}</a>
+    <br>
+    {% endfor %}
+</body>
+</html>
