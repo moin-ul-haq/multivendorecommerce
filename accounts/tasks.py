@@ -7,7 +7,7 @@ from django.conf import settings
 def send_signup_email(user_email, user_name):
     subject = 'Welcome'
     message = f'Hello {user_name}, your account has been created successfully.'
-    send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [user_email], fail_silently=True)
+    send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [user_email], fail_silently=False)
     return True
 
 
@@ -15,5 +15,5 @@ def send_signup_email(user_email, user_name):
 def send_login_email(user_email, user_name):
     subject = 'Login Notification'
     message = f'Hello {user_name}, you have logged in to your account.'
-    send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [user_email], fail_silently=True)
+    send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [user_email], fail_silently=False)
     return True

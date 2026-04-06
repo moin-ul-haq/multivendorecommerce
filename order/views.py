@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from cart.models import Cart,CartItem
 from .models import Order,OrderItem
 from django.views.generic import ListView,DetailView
+from django.http.response import HttpResponse
 
 
 class OrderListView(ListView):
@@ -22,6 +23,11 @@ class OrderDetailView(DetailView):
     
 
 def check_out(request):
+    cart=request.user.cart
+
+    for cartitem in list(cart.cartitem.all()):
+        if cartitem.quantity>cartitem.product.stock:
+            return HttpResponse("Item quantity is greater than Product Stock")
     order=Order.objects.create(user=request.user,
                                total_amount=request.user.cart.get_total(),
                                shipping={'City':'Bahawalpur'})

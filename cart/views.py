@@ -3,15 +3,19 @@ from .models import Cart,CartItem
 from store.models import Product
 from django.shortcuts import redirect
 from django.views.generic import DetailView
+from django.http.response import HttpResponse
 
 def add_to_cart(request,slug):
     cart, created = Cart.objects.get_or_create(user=request.user)
     product=Product.objects.get(slug=slug)
-    cart_item, created=CartItem.objects.get_or_create(cart=cart,product=product,defaults={'quantity': 1, 'unit_price': product.price})
-    if not created:
-        cart_item.quantity+=1
-        cart_item.save()
-    return redirect('cart')
+    if product.stock>=1:
+        cart_item, created=CartItem.objects.get_or_create(cart=cart,product=product,defaults={'quantity': 1, 'unit_price': product.price})
+        if not created:
+            if cart_item.quantity<cart_item.product.stock:
+                cart_item.quantity+=1
+                cart_item.save()
+        return redirect('cart')
+    return HttpResponse("Product Out of stock!!")
 
 def remove_from_cart(request,slug):
     cart=get_object_or_404(Cart,user=request.user)
@@ -29,10 +33,12 @@ def increase_quantity(request,slug):
     product=get_object_or_404(Product,slug=slug)
     cart=get_object_or_404(Cart,user=request.user)
     cartitem=get_object_or_404(CartItem,cart=cart,product=product)
-    cartitem.quantity+=1
+    if product.stock>cartitem.quantity:
+        cartitem.quantity+=1
     # print(cartitem.quantity)
-    cartitem.save()
-    return redirect('cart')
+        cartitem.save()
+        return redirect('cart')
+    return HttpResponse('Product out of stock')
 
 
 def decrease_quantity(request,slug):
