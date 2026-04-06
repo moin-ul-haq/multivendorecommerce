@@ -38,3 +38,9 @@ class CatagoryDetailView(DetailView):
     slug_url_kwarg='slug'
     context_object_name='catagory'
     template_name='catagory/catagory_detail.html'
+
+
+class ProductListView(ListView):
+    model=Product
+    context_object_name='products'
+    template_name='store/product_list.html'

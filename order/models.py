@@ -26,3 +26,19 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return self.order.user.name + " "+self.product.name+" ------ "+f"({str(self.quantity)})"
+
+
+class Payout(models.Model):
+    status_choices=[
+        ('pending','Pending'),
+        ('paid','Paid'),
+        ('failed','Failed'),
+    ]
+    owner=models.ForeignKey(User,on_delete=models.CASCADE,related_name='payouts')
+    order_item=models.OneToOneField(OrderItem,on_delete=models.CASCADE,related_name='payout')
+    amount=models.DecimalField(max_digits=10, decimal_places=2)
+    admin_comission=models.DecimalField(max_digits=10, decimal_places=2)
+    status=models.CharField(choices=status_choices,default='pending')
+
+    def __str__(self):
+        return self.owner.name+" payout "+str(self.amount)

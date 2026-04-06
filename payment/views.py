@@ -6,6 +6,8 @@ import stripe
 from django.conf import settings
 from django.shortcuts import redirect
 from decouple import config
+from django.views.decorators.csrf import csrf_exempt
+
 
 class PaymentListView(ListView):
     model=Payment
@@ -58,3 +60,37 @@ def CreateStripeCheckoutSessionView(request, pk):
     )
     
     return redirect(checkout_session.url)
+
+
+
+
+
+@csrf_exempt
+def stripe_webhook(request):
+    payload = request.body
+    sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
+    webhook_secret = settings.STRIPE_WEBHOOK_SECRET
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, webhook_secret
+        )
+    except ValueError:
+        return HttpResponse(status=400)
+    except stripe.error.SignatureVerificationError:
+        return HttpResponse(status=400)
+
+    # Payment successful event
+    if event['type'] == 'checkout.session.completed':
+        session = event['data']['object']
+        payment_id = session['metadata']['payment_id']
+
+        try:
+            payment = Payment.objects.get(id=payment_id)
+            payment.status = 'confirmed'
+            payment.save()
+            print(f"Payment {payment_id} confirmed!")
+        except Payment.DoesNotExist:
+            print(f"Payment {payment_id} not found!")
+
+    return HttpResponse(status=200)

@@ -21,8 +21,10 @@ from django.urls import path,include
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('', home, name='home'),
+    path('', include('accounts.urls')),
     path('', include('store.urls')),
     path('', include('cart.urls')),
     path('', include('order.urls')),
     path('', include('payment.urls')),
+    path('api/', include('daraz.api_urls')),
 ]
