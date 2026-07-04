@@ -11,14 +11,16 @@ class ApiRouteListView(APIView):
     def get(self, request):
         resolver = get_resolver()
         all_routes = []
-        self.get_routes(resolver.url_patterns, '', all_routes)
+        self.get_routes(resolver.url_patterns, "", all_routes)
         api_routes = []
         for item in all_routes:
-            if item.startswith('api/'):
+            if item.startswith("api/"):
                 api_routes.append(item)
-        return Response({
-            'api_routes': api_routes,
-        })
+        return Response(
+            {
+                "api_routes": api_routes,
+            }
+        )
 
     def get_routes(self, patterns, prefix, all_routes):
         for pattern in patterns:
@@ -26,4 +28,6 @@ class ApiRouteListView(APIView):
                 route = prefix + str(pattern.pattern)
                 all_routes.append(route)
             elif isinstance(pattern, URLResolver):
-                self.get_routes(pattern.url_patterns, prefix + str(pattern.pattern), all_routes)
+                self.get_routes(
+                    pattern.url_patterns, prefix + str(pattern.pattern), all_routes
+                )

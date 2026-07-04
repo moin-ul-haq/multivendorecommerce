@@ -15,7 +15,6 @@ from decouple import config
 from daraz.celery import app as celery_app
 
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -29,7 +28,7 @@ SECRET_KEY = "django-insecure-8s1$g-0g*md=li0s1p7hz_%v!xvsfodfki0s+5xz+^%^0thztj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -41,13 +40,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'accounts.apps.AccountsConfig',
-    'cart',
-    'order.apps.OrderConfig',
-    'payment.apps.PaymentConfig',
-    'store',
-    'rest_framework',
-    'rest_framework.authtoken',
+    "accounts.apps.AccountsConfig",
+    "cart",
+    "order.apps.OrderConfig",
+    "payment.apps.PaymentConfig",
+    "store",
+    "rest_framework",
+    "rest_framework.authtoken",
 ]
 
 MIDDLEWARE = [
@@ -65,7 +64,7 @@ ROOT_URLCONF = "daraz.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": ['templates'],
+        "DIRS": ["templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -128,15 +127,14 @@ USE_TZ = True
 STATIC_URL = "static/"
 
 
-AUTH_USER_MODEL='accounts.user'
-
+AUTH_USER_MODEL = "accounts.user"
 
 
 # Stripe
-STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY')
-STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
-STRIPE_API_KEY = config('STRIPE_API_KEY')
-STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET')
+STRIPE_PUBLISHABLE_KEY = config("STRIPE_PUBLISHABLE_KEY")
+STRIPE_SECRET_KEY = config("STRIPE_SECRET_KEY")
+STRIPE_API_KEY = config("STRIPE_API_KEY")
+STRIPE_WEBHOOK_SECRET = config("STRIPE_WEBHOOK_SECRET")
 
 
 BACKEND_DOMAIN = config("BACKEND_DOMAIN")
@@ -144,30 +142,31 @@ PAYMENT_SUCCESS_URL = config("PAYMENT_SUCCESS_URL")
 PAYMENT_CANCEL_URL = config("PAYMENT_CANCEL_URL")
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.TokenAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
     ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
     ],
 }
 
-EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST="smtp.gmail.com"
-EMAIL_PORT=587
-EMAIL_USE_TLS=True
-EMAIL_HOST_USER="moinmail001@gmail.com"
-DEFAULT_FROM_EMAIL="moinmail001@gmail.com"
-EMAIL_HOST_PASSWORD=config('EMAIL_HOST_PASSWORD')
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "moinmail001@gmail.com"
+DEFAULT_FROM_EMAIL = "moinmail001@gmail.com"
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 
-CELERY_BROKER_URL = config('CELERY_BROKER_URL', default='redis://127.0.0.1:6379/0')
-CELERY_RESULT_BACKEND = config('CELERY_RESULT_BACKEND', default='redis://127.0.0.1:6379/0')
-
+CELERY_BROKER_URL = config("CELERY_BROKER_URL", default="redis://127.0.0.1:6379/0")
+CELERY_RESULT_BACKEND = config(
+    "CELERY_RESULT_BACKEND", default="redis://127.0.0.1:6379/0"
+)
 
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://unlitigated-electrotechnic-amberly.ngrok-free.dev',
-    'http://localhost:8000',
-    'http://127.0.0.1:8000',
+    "https://unlitigated-electrotechnic-amberly.ngrok-free.dev",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
 ]

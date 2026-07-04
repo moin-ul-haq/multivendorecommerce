@@ -18,9 +18,12 @@ class LoginApiView(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['user']
+        user = serializer.validated_data["user"]
         token, created = Token.objects.get_or_create(user=user)
-        return Response({'token': token.key, 'user': UserSerializer(user).data}, status=status.HTTP_200_OK)
+        return Response(
+            {"token": token.key, "user": UserSerializer(user).data},
+            status=status.HTTP_200_OK,
+        )
 
 
 class ProfileApiView(generics.RetrieveUpdateAPIView):
@@ -36,4 +39,4 @@ class VendorApiViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return User.objects.filter(role='owner')
+        return User.objects.filter(role="owner")

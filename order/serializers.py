@@ -5,7 +5,14 @@ from .models import Order, OrderItem, Payout
 class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem
-        fields = ['id', 'product', 'product_name', 'quantity', 'unit_price', 'vendor_comission']
+        fields = [
+            "id",
+            "product",
+            "product_name",
+            "quantity",
+            "unit_price",
+            "vendor_comission",
+        ]
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -15,8 +22,17 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ['id', 'user', 'status', 'total_amount', 'shipping', 'items', 'payment_id', 'payment_status']
-        read_only_fields = ['user', 'total_amount']
+        fields = [
+            "id",
+            "user",
+            "status",
+            "total_amount",
+            "shipping",
+            "items",
+            "payment_id",
+            "payment_status",
+        ]
+        read_only_fields = ["user", "total_amount"]
 
     def get_payment_id(self, obj):
         payment = obj.payments.first()
@@ -32,8 +48,16 @@ class OrderSerializer(serializers.ModelSerializer):
 
 
 class PayoutSerializer(serializers.ModelSerializer):
-    owner_name = serializers.CharField(source='owner.name', read_only=True)
+    owner_name = serializers.CharField(source="owner.name", read_only=True)
 
     class Meta:
         model = Payout
-        fields = ['id', 'owner', 'owner_name', 'order_item', 'amount', 'admin_comission', 'status']
+        fields = [
+            "id",
+            "owner",
+            "owner_name",
+            "order_item",
+            "amount",
+            "admin_comission",
+            "status",
+        ]

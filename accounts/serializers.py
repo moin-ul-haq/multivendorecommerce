@@ -9,10 +9,19 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'password', 'name', 'age', 'email', 'address', 'role']
+        fields = [
+            "id",
+            "username",
+            "password",
+            "name",
+            "age",
+            "email",
+            "address",
+            "role",
+        ]
 
     def create(self, validated_data):
-        password = validated_data.pop('password')
+        password = validated_data.pop("password")
         user = User(**validated_data)
         user.set_password(password)
         user.save()
@@ -25,14 +34,16 @@ class LoginSerializer(serializers.Serializer):
     password = serializers.CharField(write_only=True)
 
     def validate(self, attrs):
-        user = authenticate(username=attrs.get('username'), password=attrs.get('password'))
+        user = authenticate(
+            username=attrs.get("username"), password=attrs.get("password")
+        )
         if not user:
-            raise serializers.ValidationError('invalid credentials')
-        attrs['user'] = user
+            raise serializers.ValidationError("invalid credentials")
+        attrs["user"] = user
         return attrs
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'name', 'age', 'email', 'address', 'role']
+        fields = ["id", "username", "name", "age", "email", "address", "role"]

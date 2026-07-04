@@ -4,41 +4,51 @@ from store.models import Product
 
 
 class Order(models.Model):
-    status_choices=[
-        ('pending','Pending'),
-        ('confirmed','Confirmed'),
-        ('shipped','Shipped'),
-        ('delivered','Delivered'),
+    status_choices = [
+        ("pending", "Pending"),
+        ("confirmed", "Confirmed"),
+        ("shipped", "Shipped"),
+        ("delivered", "Delivered"),
     ]
-    user=models.ForeignKey(User,on_delete=models.PROTECT,related_name='order')
-    status=models.CharField(choices=status_choices,default='pending')
-    total_amount=models.DecimalField(max_digits=12,decimal_places=2)
-    shipping=models.JSONField()
+    user = models.ForeignKey(User, on_delete=models.PROTECT, related_name="order")
+    status = models.CharField(choices=status_choices, default="pending")
+    total_amount = models.DecimalField(max_digits=12, decimal_places=2)
+    shipping = models.JSONField()
 
 
 class OrderItem(models.Model):
-    order=models.ForeignKey(Order,on_delete=models.CASCADE,related_name='items')
-    product=models.ForeignKey(Product,on_delete=models.PROTECT,related_name='orderitems')
-    quantity=models.IntegerField()
-    unit_price=models.DecimalField(max_digits=10, decimal_places=2)
-    vendor_comission=models.DecimalField(max_digits=10, decimal_places=2)
-    product_name=models.CharField(max_length=255)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="items")
+    product = models.ForeignKey(
+        Product, on_delete=models.PROTECT, related_name="orderitems"
+    )
+    quantity = models.IntegerField()
+    unit_price = models.DecimalField(max_digits=10, decimal_places=2)
+    vendor_comission = models.DecimalField(max_digits=10, decimal_places=2)
+    product_name = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.order.user.name + " "+self.product.name+" ------ "+f"({str(self.quantity)})"
+        return (
+            self.order.user.name
+            + " "
+            + self.product.name
+            + " ------ "
+            + f"({str(self.quantity)})"
+        )
 
 
 class Payout(models.Model):
-    status_choices=[
-        ('pending','Pending'),
-        ('paid','Paid'),
-        ('failed','Failed'),
+    status_choices = [
+        ("pending", "Pending"),
+        ("paid", "Paid"),
+        ("failed", "Failed"),
     ]
-    owner=models.ForeignKey(User,on_delete=models.CASCADE,related_name='payouts')
-    order_item=models.OneToOneField(OrderItem,on_delete=models.CASCADE,related_name='payout')
-    amount=models.DecimalField(max_digits=10, decimal_places=2)
-    admin_comission=models.DecimalField(max_digits=10, decimal_places=2)
-    status=models.CharField(choices=status_choices,default='pending')
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="payouts")
+    order_item = models.OneToOneField(
+        OrderItem, on_delete=models.CASCADE, related_name="payout"
+    )
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    admin_comission = models.DecimalField(max_digits=10, decimal_places=2)
+    status = models.CharField(choices=status_choices, default="pending")
 
     def __str__(self):
-        return self.owner.name+" payout "+str(self.amount)
+        return self.owner.name + " payout " + str(self.amount)
